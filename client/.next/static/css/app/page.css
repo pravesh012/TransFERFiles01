@@ -1,0 +1,40 @@
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/components/deviceCSS.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+.devices{
+    margin:7px 0px 0px 3px;
+}
+.devicesContainer{
+    margin-top: 4px;
+    margin-left:1px;
+    overflow-y: auto;
+}
+.devicesContainer p:hover{
+    background-color: rgb(124, 124, 123);
+}
+.devicesContainer p{
+    border-bottom: 1px solid whitesmoke;
+    margin: 0;
+    height: 2.3em;
+    background-color: rgb(95, 90, 90);
+}
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/main.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
+body{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main-compoennt{
+    border-radius: 10px 10px 10px 10px;
+    border: 1px solid rgb(107, 102, 102) ;
+    margin-top: 25vh;
+    height: 300px;
+    width: 800px;
+
+    min-width: 200px;
+    max-width: 300px;
+    
+}

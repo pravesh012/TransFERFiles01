@@ -1,0 +1,17 @@
+.devices{
+    margin:7px 0px 0px 3px;
+}
+.devicesContainer{
+    margin-top: 4px;
+    margin-left:1px;
+    overflow-y: auto;
+}
+.devicesContainer p:hover{
+    background-color: rgb(124, 124, 123);
+}
+.devicesContainer p{
+    border-bottom: 1px solid whitesmoke;
+    margin: 0;
+    height: 2.3em;
+    background-color: rgb(95, 90, 90);
+}

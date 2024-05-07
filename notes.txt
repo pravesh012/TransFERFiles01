@@ -1,0 +1,5 @@
+ local network port needs to manually be changed
+on my server and client side.
+In client side, go to page.js and change the fetch
+request  url to your local network and on the server directory
+in server.js, change the network to your local network.
