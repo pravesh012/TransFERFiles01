@@ -77,7 +77,7 @@ useEffect(() => {
 
                 socket.current.on('recievingData', ({deviceSelected, data, type, sequenceCounter, isFinished})=>{
 
-                    SequenceChecker(data, sequenceCounter, type, isFinished, finalFileResult.current, sequence ,DownloadFile);
+                    SequenceChecker(data, sequenceCounter, type, isFinished, finalFileResult, sequence ,DownloadFile);
     
                     function DownloadFile(file, typeFile)
                     {
@@ -88,8 +88,7 @@ useEffect(() => {
                         };
                       
 
-                        let blob = new Blob(file);
-
+                        let blob = new Blob(file.current);
                         let url = URL.createObjectURL(blob);
                             let body = document.getElementsByTagName('body')[0];
                             let anchor = document.createElement('a');
@@ -101,7 +100,8 @@ useEffect(() => {
         
                                 URL.revokeObjectURL(url)
                                 body.removeChild(anchor);
-
+                                sequence.previousSequence = 0;
+                            
                        
 
     

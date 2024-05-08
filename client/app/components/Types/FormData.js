@@ -34,7 +34,7 @@ export default class FormData{
            
             if(offset < file.size)
             {   
-                
+            
                 let slicedChunk = file.slice(offset, offset + Kbyte);
                 
                 this.socket.emit('sendingData', { deviceSelected: this.deviceSelected, data: slicedChunk, type:file.name , sequenceCounter:this.sequenceCounter, isFinished: false});
@@ -66,17 +66,21 @@ export function SequenceChecker(data, sequenceCounter, type, isFinished, finalFi
   
         if( sequence.previousSequence == undefined && sequenceCounter == 0)
         {
-            
-            finalFileResult.push(new Uint8Array(data));
+            console.log(sequenceCounter);
+            console.log(data);
+            console.log(finalFileResult)
+            finalFileResult.current.push(new Uint8Array(data));
             sequence.previousSequence = 0;
+
 
            
         };
         if( sequence.previousSequence == (sequenceCounter - 1) && isFinished == false )
         {
             
-           
-            finalFileResult.push(new Uint8Array(data));
+            console.log(sequenceCounter)
+
+            finalFileResult.current.push(new Uint8Array(data));
             sequence.previousSequence = sequenceCounter;
            
         } 
@@ -84,9 +88,13 @@ export function SequenceChecker(data, sequenceCounter, type, isFinished, finalFi
             // when finished or duplicates//
             if( data == 'none' && isFinished )
             {
-              
+                console.log('prevSeq', sequence.previousSequence);
+                console.log(sequenceCounter)
+
                 callback(finalFileResult, type);
-                finalFileResult = [];
+                finalFileResult.current = [];
+                sequence.previousSequence = undefined;
+                console.log(finalFileResult);
                 
             }
             // this is duplicates, ignore it
