@@ -1,3 +1,6 @@
+to start:
+install node_modules, build client and server
+with npm run build then
  local network port needs to manually be changed
 on my server and client side.
 In client side, go to page.js and change the fetch

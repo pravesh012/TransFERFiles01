@@ -89,6 +89,7 @@ useEffect(() => {
                       
 
                         let blob = new Blob(file.current);
+                        console.log('im triggered downloading', blob);
                         let url = URL.createObjectURL(blob);
                             let body = document.getElementsByTagName('body')[0];
                             let anchor = document.createElement('a');

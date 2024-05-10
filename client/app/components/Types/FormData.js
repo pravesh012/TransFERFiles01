@@ -2,6 +2,7 @@ export default class FormData{
     constructor(socket)
     
     {   
+        this.SYSFILECOUNT;
         this.socket = socket
         this.deviceSelected;
         this.files;
@@ -9,9 +10,11 @@ export default class FormData{
         
     }
     HandleClicked(event){
-       
+        const Kbyte = 100000;
+        let offset = {set: 0}; 
         this.deviceSelected = event.target.parentNode.innerText;
         this.files = Object.values(event.target.files);
+        this.SYSFILECOUNT ={length: 0};
         
         if(!this.files){
             // no files
@@ -19,38 +22,61 @@ export default class FormData{
             return 'no files!'
         }
         
-        this.files.forEach(file => {
-            this.SendServer(file);
-        });
+       
+        this.SendServer(this.files, this.SYSFILECOUNT, offset);
 
 
 
     };
-    SendServer(file){
+    SendServer(files, SYSFILECOUNT, offset ){
         const Kbyte  = 100000;
-        let offset = 0;
+        console.log('send executed')
+        console.log('file is:', files[0]);
 
-        let interval = setInterval(()=>{
-           
-            if(offset < file.size)
-            {   
-            
-                let slicedChunk = file.slice(offset, offset + Kbyte);
+        if(files.length > SYSFILECOUNT.length )
+            {
+                console.log('file is from inner:', files[SYSFILECOUNT.length]);
+                console.log(SYSFILECOUNT.length)
+                let interval = setInterval(()=>{
+                    let file = files[SYSFILECOUNT.length];
+                    if(offset.set < file.size)
+                        {
+                            let slicedChunk = file.slice(offset.set, offset.set + Kbyte); 
+                            this.socket.emit('sendingData', { deviceSelected: this.deviceSelected, data: slicedChunk, type:file.name , sequenceCounter:this.sequenceCounter, isFinished: false});
+                            this.sequenceCounter++
+                            offset.set +=Kbyte;
+                            console.log(this.sequenceCounter);
+                            console.log(SYSFILECOUNT);
+                            console.log('data', slicedChunk)
+
+
+                        }
+                        else{
+                            this.socket.emit('sendingData', { deviceSelected: this.deviceSelected, data: 'none', type:file.name , sequenceCounter:0, isFinished: true});
+                            offset.set = 0;
+                            SYSFILECOUNT.length++
+                            this.sequenceCounter = 0
+                            clearInterval(interval);
+                            
+
+                            this.SendServer(files, SYSFILECOUNT, offset);
+                        }
+
+                },0)
                 
-                this.socket.emit('sendingData', { deviceSelected: this.deviceSelected, data: slicedChunk, type:file.name , sequenceCounter:this.sequenceCounter, isFinished: false});
-                this.sequenceCounter++
-                offset +=Kbyte;
             }
             else{
-              
-                clearInterval(interval);
-               
-                this.socket.emit('sendingData', { deviceSelected: this.deviceSelected, data: 'none', type:file.name , sequenceCounter:(this.sequenceCounter - 1), isFinished: true});
-                offset = 0;
+                return;
             }
-           
-        }, 200);
+
        
+
+            
+            
+
+            
+           
+      
 
         
     };
@@ -62,7 +88,7 @@ export default class FormData{
 // download it 1,2,3. not at same time.
 export function SequenceChecker(data, sequenceCounter, type, isFinished, finalFileResult, sequence ,callback)
 {   
-
+        console.log(sequenceCounter)
   
         if( sequence.previousSequence == undefined && sequenceCounter == 0)
         {
